@@ -1,0 +1,107 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{7CE3C0AB-635A-4EFE-88AF-4115C88E579E}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ADO.NET.Extended</RootNamespace>
+    <AssemblyName>ADO.NET.Extended</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Oracle.DataAccess, Version=2.112.1.0, Culture=neutral, PublicKeyToken=89b483f429c47342, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Oracle.DataAccess.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.OracleClient" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Connection\Database\Exceptions\ConnectionException.cs" />
+    <Compile Include="Connection\Database\Implementation\ConnectionFactory.cs" />
+    <Compile Include="Connection\Database\Implementation\DbObjectBase.cs" />
+    <Compile Include="Connection\Database\Implementation\ScriptBundle.cs" />
+    <Compile Include="Connection\Database\Interface\IConnectionFactory.cs" />
+    <Compile Include="Connection\Database\Interface\ICommand.cs" />
+    <Compile Include="Connection\Database\Interface\IConnection.cs" />
+    <Compile Include="Connection\Database\Interface\IConnectionStringBuilder.cs" />
+    <Compile Include="Connection\Database\Interface\IDbDataReader.cs" />
+    <Compile Include="Connection\Database\Interface\IScriptBuilder.cs" />
+    <Compile Include="Connection\Database\MSSQL\Implementation\MsSqlCommand.cs" />
+    <Compile Include="Connection\Database\MSSQL\Implementation\MsSqlConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\MSSQL\Implementation\MsSqlConnectionFactory.cs" />
+    <Compile Include="Connection\Database\MSSQL\Implementation\MsSqlConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Connection\Database\MSSQL\Interface\IMsSqlCommand.cs" />
+    <Compile Include="Connection\Database\MSSQL\Interface\IMsSqlConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\MSSQL\Interface\IMsSqlConnectionFactory.cs" />
+    <Compile Include="Connection\Database\MySQL\Implementation\MySqlCommand.cs" />
+    <Compile Include="Connection\Database\MySQL\Implementation\MySqlConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\MySQL\Implementation\MySqlConnectionFactory.cs" />
+    <Compile Include="Connection\Database\MySQL\Implementation\MySqlConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Connection\Database\MySQL\Interface\IMySqlCommand.cs" />
+    <Compile Include="Connection\Database\MySQL\Interface\IMySqlConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\MySQL\Interface\IMySqlConnectionFactory.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleDataReader.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleCommand.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleScriptBuilder.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleDataReader.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleScriptBuilder.cs" />
+    <Compile Include="Connection\Database\Oracle\OracleExceptions\OracleConnectionException.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleConnectionFactory.cs" />
+    <Compile Include="Connection\Database\Oracle\Implementation\OracleConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Connection\Database\Oracle\OracleExceptions\OracleDataReaderException.cs" />
+    <Compile Include="Connection\Database\Oracle\OracleExceptions\OracleSqlCommandException.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleCommand.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleConnectionDecorater.cs" />
+    <Compile Include="Connection\Database\MSSQL\Interface\IMsSqlConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Connection\Database\MySQL\Interface\IMySqlConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleConnectionFactory.cs" />
+    <Compile Include="Connection\Database\Oracle\Interface\IOracleConnectionStringBuilderDecorater.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\Lists\ListUtilitie.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
