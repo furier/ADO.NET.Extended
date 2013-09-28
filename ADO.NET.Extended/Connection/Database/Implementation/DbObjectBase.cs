@@ -3,11 +3,6 @@
 // // ***********************************************************************
 // // Author           : Sander Struijk
 // // ***********************************************************************
-// // <copyright file="DbObjectBase.cs" company="Statoil">
-// //     Copyright (c) Statoil. All rights reserved.
-// // </copyright>
-// // <summary></summary>
-// // ***********************************************************************
 
 #endregion
 
