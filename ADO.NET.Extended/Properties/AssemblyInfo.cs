@@ -1,17 +1,14 @@
 ﻿#region File Header
 
-// // ***********************************************************************
-// // Author           : Sander Struijk
-// // ***********************************************************************
-// // <copyright file="AssemblyInfo.cs" company="Statoil">
-// //     Copyright (c) Statoil. All rights reserved.
-// // </copyright>
-// // <summary></summary>
-// // ***********************************************************************
+// //////////////////////////////////////////////////////
+// /// File: AssemblyInfo.cs
+// /// Author: Sander Struijk
+// /// Date: 2013-09-28 14:50
+// //////////////////////////////////////////////////////
 
 #endregion
 
-#region Using statements
+#region Using Directives
 
 using System.Reflection;
 using System.Runtime.InteropServices;
@@ -25,22 +22,19 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("ADO.NET.Extended")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Statoil")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("ADO.NET.Extended")]
-[assembly: AssemblyCopyright("Copyright © Statoil 2013")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
 // Setting ComVisible to false makes the types in this assembly not visible 
 // to COM components.  If you need to access a type in this assembly from 
 // COM, set the ComVisible attribute to true on that type.
 
 [assembly: ComVisible(false)]
-
 // The following GUID is for the ID of the typelib if this project is exposed to COM
 
 [assembly: Guid("5742d9b0-8ec3-4e46-8302-2c062cee8184")]
-
 // Version information for an assembly consists of the following four values:
 //
 //      Major Version

@@ -1,17 +1,14 @@
 ﻿#region File Header
 
-// // ***********************************************************************
-// // Author           : Sander Struijk
-// // ***********************************************************************
-// // <copyright file="IOracleConnectionStringBuilderDecorater.cs" company="Statoil">
-// //     Copyright (c) Statoil. All rights reserved.
-// // </copyright>
-// // <summary></summary>
-// // ***********************************************************************
+// //////////////////////////////////////////////////////
+// /// File: IOracleConnectionStringBuilderDecorater.cs
+// /// Author: Sander Struijk
+// /// Date: 2013-09-28 14:50
+// //////////////////////////////////////////////////////
 
 #endregion
 
-#region Using statements
+#region Using Directives
 
 using ADO.NET.Extended.Connection.Database.Interface;
 
@@ -19,9 +16,8 @@ using ADO.NET.Extended.Connection.Database.Interface;
 
 namespace ADO.NET.Extended.Connection.Database.Oracle.Interface
 {
-    /// <summary>
-    ///     Author: Sander Struijk
-    ///     Interface IOracleConnectionStringBuilderDecorater
-    /// </summary>
+    /// <summary>   Author: Sander Struijk Interface IOracleConnectionStringBuilderDecorater. </summary>
+    /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+    /// <seealso cref="T:IConnectionStringBuilder"/>
     public interface IOracleConnectionStringBuilderDecorater : IConnectionStringBuilder {}
 }

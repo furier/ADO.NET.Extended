@@ -1,21 +1,19 @@
 ﻿#region File Header
 
-// // ***********************************************************************
-// // Author           : Sander Struijk
-// // ***********************************************************************
-// // <copyright file="OracleConnectionDecorater.cs" company="Statoil">
-// //     Copyright (c) Statoil. All rights reserved.
-// // </copyright>
-// // <summary></summary>
-// // ***********************************************************************
+// //////////////////////////////////////////////////////
+// /// File: OracleConnectionDecorater.cs
+// /// Author: Sander Struijk
+// /// Date: 2013-09-28 14:50
+// //////////////////////////////////////////////////////
 
 #endregion
 
-#region Using statements
+#region Using Directives
 
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.OracleClient;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -25,79 +23,54 @@ using System.Text.RegularExpressions;
 using ADO.NET.Extended.Connection.Database.Interface;
 using ADO.NET.Extended.Connection.Database.Oracle.Interface;
 using ADO.NET.Extended.Connection.Database.Oracle.OracleExceptions;
-using Oracle.DataAccess.Client;
 
 #endregion
 
 namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
 {
-    /// <summary>
-    ///     Class OracleConnectionDecorater
-    /// </summary>
+    /// <summary>   Class OracleConnectionDecorater. </summary>
+    /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+    /// <seealso cref="T:ADO.NET.Extended.Connection.Database.Oracle.Interface.IOracleConnectionDecorater"/>
     public class OracleConnectionDecorater : IOracleConnectionDecorater
     {
         #region Fields
 
-        /// <summary>
-        ///     The match oracle blocks
-        /// </summary>
+        /// <summary>   The match oracle blocks. </summary>
         protected const string MatchOracleBlocks = "((BEGIN|DECLARE).*?^END;)";
 
-        /// <summary>
-        ///     The new line slash new line
-        /// </summary>
-        protected static readonly string NewLineSlashNewLine = string.Format("({0}/{0})", Environment.NewLine);
-
-        /// <summary>
-        ///     The single oracle comment line
-        /// </summary>
+        /// <summary>   The single oracle comment line. </summary>
         protected const string SingleOracleCommentLine = "(?:^--.*)";
 
-        /// <summary>
-        ///     The open connection exception text.
-        /// </summary>
-        protected const string OpenConnectionExceptionText = "Failed to open connection\n" +
-                                                             "ConnectionString: {0}\n" +
-                                                             "ProductVersion: {1}\n" +
-                                                             "Location: {2}\n" +
-                                                             "Windows Account: {3}";
+        /// <summary>   The open connection exception text. </summary>
+        protected const string OpenConnectionExceptionText = "Failed to open connection\n" + "ConnectionString: {0}\n" + "ProductVersion: {1}\n" + "Location: {2}\n" + "Windows Account: {3}";
 
-        /// <summary>
-        ///     The close connection exception text.
-        /// </summary>
+        /// <summary>   The close connection exception text. </summary>
         protected const string CloseConnectionExceptionText = "Failed to close the connection, DataSource: {0}";
 
-        /// <summary>
-        ///     The failed to run SQL command.
-        /// </summary>
+        /// <summary>   The failed to run SQL command. </summary>
         protected const string FailedToRunSQLCommand = "[ Failed to run SQL Command @ {0}: {1} ]";
 
-        /// <summary>
-        ///     The _command
-        /// </summary>
+        /// <summary>   The new line slash new line. </summary>
+        protected static readonly string NewLineSlashNewLine = string.Format("({0}/{0})", Environment.NewLine);
+
+        /// <summary>   The _command. </summary>
         protected global::Oracle.DataAccess.Client.OracleCommand Command;
 
-        /// <summary>
-        ///     The _connection
-        /// </summary>
+        /// <summary>   The _connection. </summary>
         protected OracleConnection Connection;
 
-        /// <summary>
-        ///     The _connection string
-        /// </summary>
+        /// <summary>   The _connection string. </summary>
         protected string ConnectionString;
 
-        /// <summary>
-        ///     The script builder.
-        /// </summary>
+        /// <summary>   The script builder. </summary>
         protected internal IOracleScriptBuilder ScriptBuilder;
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// </summary>
+        /// <summary>   Default constructor. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
         public OracleConnectionDecorater()
         {
             ScriptBuilder = new OracleScriptBuilder();
@@ -105,10 +78,9 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
             Command = new global::Oracle.DataAccess.Client.OracleCommand {Connection = Connection};
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="OracleConnectionDecorater" /> class.
-        /// </summary>
-        /// <param name="connectionString">The connection string.</param>
+        /// <summary>   Initializes a new instance of the <see cref="OracleConnectionDecorater" /> class. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="connectionString"> The connection string. </param>
         public OracleConnectionDecorater(string connectionString)
         {
             ScriptBuilder = new OracleScriptBuilder();
@@ -117,10 +89,9 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
             Command = new global::Oracle.DataAccess.Client.OracleCommand {Connection = Connection};
         }
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="OracleConnectionDecorater" /> class.
-        /// </summary>
-        /// <param name="connectionStringBuilder">The connection string builder.</param>
+        /// <summary>   Initializes a new instance of the <see cref="OracleConnectionDecorater" /> class. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="connectionStringBuilder">  The connection string builder. </param>
         public OracleConnectionDecorater(IOracleConnectionStringBuilderDecorater connectionStringBuilder)
         {
             ScriptBuilder = new OracleScriptBuilder();
@@ -130,12 +101,11 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
         }
 
         #endregion
-        
-        /// <summary>
-        ///     Throws the failed to run SQL sql exception.
-        /// </summary>
-        /// <param name="ex">The ex.</param>
-        /// <returns>OracleSqlCommandException.</returns>
+
+        /// <summary>   Throws the failed to run SQL sql exception. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="ex">   The ex. </param>
+        /// <returns>   OracleSqlCommandException. </returns>
         protected virtual OracleSqlCommandException ThrowFailedToRunSqlCommandException(Exception ex)
         {
             var exceptionMessage = string.Format(FailedToRunSQLCommand, Connection.DataSource, Command.CommandText);
@@ -144,80 +114,32 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
 
         #region Public Members
 
-        /// <summary>
-        ///     Event queue for all listeners interested in Disposed events.
-        /// </summary>
+        /// <summary>   Event queue for all listeners interested in Disposed events. </summary>
         public event EventHandler Disposed;
 
-        /// <summary>
-        ///     Executes the dispose action.
-        /// </summary>
-        /// <remarks>
-        ///     SASTRU, 30.07.2013.
-        /// </remarks>
-        protected virtual void OnDispose()
-        {
-            var handler = Disposed;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        ///     Event queue for all listeners interested in Opened events.
-        /// </summary>
+        /// <summary>   Event queue for all listeners interested in Opened events. </summary>
         public event EventHandler Opened;
 
-        /// <summary>
-        ///     Executes the open action.
-        /// </summary>
-        /// <remarks>
-        ///     SASTRU, 30.07.2013.
-        /// </remarks>
-        protected virtual void OnOpen()
-        {
-            var handler = Opened;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        ///     Event queue for all listeners interested in Closed events.
-        /// </summary>
+        /// <summary>   Event queue for all listeners interested in Closed events. </summary>
         public event EventHandler Closed;
 
-        /// <summary>
-        ///     Executes the close action.
-        /// </summary>
-        /// <remarks>
-        ///     SASTRU, 30.07.2013.
-        /// </remarks>
-        protected virtual void OnClose()
-        {
-            var handler = Closed;
-            if (handler != null) handler(this, EventArgs.Empty);
-        }
-
-        /// <summary>
-        ///     The State of the connection
-        /// </summary>
-        /// <value>The state.</value>
+        /// <summary>   The State of the connection. </summary>
+        /// <value> The state. </value>
         public virtual ConnectionState State
         {
             get { return Connection.State; }
         }
 
-        /// <summary>
-        ///     Address to target host
-        /// </summary>
-        /// <value>The data source.</value>
+        /// <summary>   Address to target host. </summary>
+        /// <value> The data source. </value>
         public virtual string DataSource
         {
             get { return Connection.DataSource; }
         }
 
-        /// <summary>
-        ///     Opens the connection and returns itself
-        /// </summary>
-        /// <returns>IConnection.</returns>
-        /// <exception cref="OracleConnectionException"></exception>
+        /// <summary>   Opens the connection and returns itself. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <seealso cref="M:ADO.NET.Extended.Connection.Database.Oracle.Interface.IOracleConnectionDecorater.Open()"/>
         public virtual IOracleConnectionDecorater Open()
         {
             try
@@ -226,34 +148,27 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                 OnOpen();
                 return this;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var assembly = Assembly.GetAssembly(typeof(OracleConnection));
                 var version = FileVersionInfo.GetVersionInfo(assembly.Location).ProductVersion;
                 var location = assembly.Location;
                 var currentUser = WindowsIdentity.GetCurrent();
-                throw new OracleConnectionException(string.Format(OpenConnectionExceptionText,
-                                                                  ConnectionString,
-                                                                  version,
-                                                                  location,
-                                                                  currentUser),
-                                                    ex);
+                throw new OracleConnectionException(string.Format(OpenConnectionExceptionText, ConnectionString, version, location, currentUser), ex);
             }
         }
 
-        /// <summary>
-        ///     Opens the connection and returns itself
-        /// </summary>
-        /// <returns>IConnection.</returns>
+        /// <summary>   Opens the connection and returns itself. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <returns>   IConnection. </returns>
         IConnection IConnection.Open()
         {
             return Open();
         }
 
-        /// <summary>
-        ///     Closes the ConnectionBase
-        /// </summary>
-        /// <exception cref="OracleConnectionException"></exception>
+        /// <summary>   Closes the ConnectionBase. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <exception cref="OracleConnectionException">    . </exception>
         public virtual void Close()
         {
             try
@@ -261,15 +176,14 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                 Connection.Close();
                 OnClose();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new OracleConnectionException(string.Format(CloseConnectionExceptionText, DataSource), ex);
             }
         }
 
-        /// <summary>
-        ///     Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
+        /// <summary>   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
         public virtual void Dispose()
         {
             Command.Dispose();
@@ -277,12 +191,12 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
             OnDispose();
         }
 
-        /// <summary>
-        ///     executes a query with no return value, executes the supplied sql with arguments if supplied
-        /// </summary>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="args">The args.</param>
-        /// <returns>System.Int32.</returns>
+        /// <summary>   executes a query with no return value, executes the supplied sql with arguments if supplied. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <exception cref="ThrowFailedToRunSqlCommandException">  Thrown when a Throw Failed To Run SQL Command error condition occurs. </exception>
+        /// <param name="sql">  The SQL. </param>
+        /// <param name="args"> The args. </param>
+        /// <returns>   System.Int32. </returns>
         public virtual int ExecuteNonQuery(string sql, params object[] args)
         {
             try
@@ -290,18 +204,18 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                 Command.CommandText = args.Length > 0 ? string.Format(sql, args) : sql;
                 return Command.ExecuteNonQuery();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ThrowFailedToRunSqlCommandException(ex);
             }
         }
 
-        /// <summary>
-        ///     Executes the scalar.
-        /// </summary>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="args">The args.</param>
-        /// <returns>System.Object.</returns>
+        /// <summary>   Executes the scalar. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <exception cref="ThrowFailedToRunSqlCommandException">  Thrown when a Throw Failed To Run SQL Command error condition occurs. </exception>
+        /// <param name="sql">  The SQL. </param>
+        /// <param name="args"> The args. </param>
+        /// <returns>   System.Object. </returns>
         public virtual object ExecuteScalar(string sql, params object[] args)
         {
             try
@@ -309,31 +223,26 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                 Command.CommandText = args.Length > 0 ? string.Format(sql, args) : sql;
                 return Command.ExecuteScalar();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ThrowFailedToRunSqlCommandException(ex);
             }
         }
 
-        /// <summary>
-        ///     executes a query where return values are expected executes the supplied sql with arguments if supplied
-        /// </summary>
-        /// <param name="disposeConnection"></param>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="args">The args.</param>
-        /// <returns>DbDataReader.</returns>
+        /// <summary>   executes a query where return values are expected executes the supplied sql with arguments if supplied. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="disposeConnection">    . </param>
+        /// <param name="sql">                  The SQL. </param>
+        /// <param name="args">                 The args. </param>
+        /// <returns>   DbDataReader. </returns>
         IDbDataReader IConnection.ExecuteReader(bool disposeConnection, string sql, params object[] args)
         {
             return ExecuteReader(disposeConnection, sql, args);
         }
 
-        /// <summary>
-        ///     executes a query where return values are expected executes the supplied sql with arguments if supplied
-        /// </summary>
-        /// <param name="disposeConnection"></param>
-        /// <param name="sql">The SQL.</param>
-        /// <param name="args">The args.</param>
-        /// <returns>DbDataReader.</returns>
+        /// <summary>   executes a query where return values are expected executes the supplied sql with arguments if supplied. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <seealso cref="M:ADO.NET.Extended.Connection.Database.Oracle.Interface.IOracleConnectionDecorater.ExecuteReader(bool,string,params object[])"/>
         public virtual IOracleDataReader ExecuteReader(bool disposeConnection, string sql, params object[] args)
         {
             try
@@ -341,16 +250,15 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                 Command.CommandText = args.Length > 0 ? string.Format(sql, args) : sql;
                 return disposeConnection ? new OracleDataReader(Command.ExecuteReader(), this) : new OracleDataReader(Command.ExecuteReader());
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ThrowFailedToRunSqlCommandException(ex);
             }
         }
 
-        /// <summary>
-        ///     Trys to execute whatever is inside the file found under the path supplied
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
+        /// <summary>   Trys to execute whatever is inside the file found under the path supplied. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="filePath"> The file path. </param>
         public virtual void ExecuteSqlFile(string filePath)
         {
             var file = new StreamReader(filePath);
@@ -359,10 +267,10 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
             ExecuteSqlScript(script);
         }
 
-        /// <summary>
-        ///     Trys to execute whatever script is supplied in the parameter
-        /// </summary>
-        /// <param name="sqlScript">The SQL script.</param>
+        /// <summary>   Trys to execute whatever script is supplied in the parameter. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <exception cref="ThrowFailedToRunSqlCommandException">  Thrown when a Throw Failed To Run SQL Command error condition occurs. </exception>
+        /// <param name="sqlScript">    The SQL script. </param>
         public virtual void ExecuteSqlScript(string sqlScript)
         {
             //Regex to trim away all comments in an sql script
@@ -372,7 +280,7 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
             //Remove garbage in the list with commands to run against the oracle data base.
             commands.RemoveAll(x => x.Equals(NewLineSlashNewLine.Trim('(', ')')) || string.IsNullOrEmpty(x.Trim()));
             //Run all the commands with a loop
-            foreach(var command in commands)
+            foreach (var command in commands)
             {
                 try
                 {
@@ -380,44 +288,66 @@ namespace ADO.NET.Extended.Connection.Database.Oracle.Implementation
                     Command.CommandText = Regex.IsMatch(command, MatchOracleBlocks, RegexOptions.Multiline | RegexOptions.Singleline) ? command : command.TrimEnd(';');
                     Command.ExecuteNonQuery();
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     throw ThrowFailedToRunSqlCommandException(ex);
                 }
             }
         }
 
-        /// <summary>
-        ///     Send in a list of sql commands,
-        ///     they will be executed in one transaction
-        /// </summary>
-        /// <param name="commands">The commands.</param>
+        /// <summary>   Send in a list of sql commands, they will be executed in one transaction. </summary>
+        /// <remarks>   Sander Struijk, 31.08.2013. </remarks>
+        /// <param name="commands"> The commands. </param>
         public virtual void ExecuteCommands(ICollection<ICommand> commands)
         {
-            if(!commands.Any()) return;
+            if (!commands.Any()) return;
             var script = ScriptBuilder.Create(commands);
             try
             {
                 //execute the anonymous pl/sql block in one transaction.
                 ExecuteNonQuery(script);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var successfullCommands = new List<string>();
                 var failedCommands = new List<string>();
-                foreach(var command in commands)
+                foreach (var command in commands)
                 {
                     try
                     {
                         ExecuteNonQuery(command.Value);
                         successfullCommands.Add(command.Value);
                     }
-                    catch(Exception exc)
+                    catch (Exception exc)
                     {
                         failedCommands.Add(command.Value);
                     }
                 }
             }
+        }
+
+        /// <summary>   Executes the dispose action. </summary>
+        /// <remarks>   Sander Struijk, 30.07.2013. </remarks>
+        protected virtual void OnDispose()
+        {
+            var handler = Disposed;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>   Executes the open action. </summary>
+        /// <remarks>   Sander Struijk, 30.07.2013. </remarks>
+        protected virtual void OnOpen()
+        {
+            var handler = Opened;
+            if (handler != null) handler(this, EventArgs.Empty);
+        }
+
+        /// <summary>   Executes the close action. </summary>
+        /// <remarks>   Sander Struijk, 30.07.2013. </remarks>
+        protected virtual void OnClose()
+        {
+            var handler = Closed;
+            if (handler != null) handler(this, EventArgs.Empty);
         }
 
         #endregion
