@@ -1,4 +1,9 @@
-﻿using System.Collections.Generic;
+
+// // ***********************************************************************
+// // Author           : Sander Struijk
+// // ***********************************************************************
+
+using System.Collections.Generic;
 using ADO.NET.Extended.Connection.Database.Interface;
 using ADO.NET.Extended.Utilities.Lists;
 
