@@ -8,10 +8,7 @@
 
 namespace ADO.NET.Extended.Connection.Database.Interface
 {
-    /// <summary>
-    ///     Author: Sander Struijk
-    ///     Interface ICommand
-    /// </summary>
+    /// <summary> Interface ICommand </summary>
     public interface ICommand
     {
         /// <summary>
