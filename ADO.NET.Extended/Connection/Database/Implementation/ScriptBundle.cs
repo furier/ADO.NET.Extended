@@ -1,4 +1,3 @@
-
 // // ***********************************************************************
 // // Author           : Sander Struijk
 // // ***********************************************************************
@@ -13,7 +12,7 @@ namespace ADO.NET.Extended.Connection.Database.Implementation
     ///     Collection of scripts.
     /// </summary>
     /// <remarks>
-    ///     Sastru, 24.07.2013.
+    ///     Sander Struijk, 24.07.2013.
     /// </remarks>
     public class ScriptBundle : object
     {
