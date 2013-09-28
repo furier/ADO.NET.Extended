@@ -3,11 +3,6 @@
 // // ***********************************************************************
 // // Author           : Sander Struijk
 // // ***********************************************************************
-// // <copyright file="ConnectionException.cs" company="Statoil">
-// //     Copyright (c) Statoil. All rights reserved.
-// // </copyright>
-// // <summary></summary>
-// // ***********************************************************************
 
 #endregion
 
